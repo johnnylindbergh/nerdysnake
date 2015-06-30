@@ -1,19 +1,20 @@
 <?php
 
 $data = array(
-'2d6383e1719089d96c28047633dc530195de2a75pass'	=> '7b5b46e112b27931716a62ea0e046829174e6390',
-'2d6383e1719089d96c28047633dc530195de2a75salt'	=> 'qeUD^QIcCft3%pOz1k~h0qqrW*nYWp7|9o~OF_+5h7LNAp461YyBz3wanygv'
+'2d6383e1719089d96c28047633dc530195de2a75pass'	=> '8a94efafd9440072c5f297133a0b71dcd5826d90',
+'2d6383e1719089d96c28047633dc530195de2a75salt'	=> '~O41P1DZuaKi^UE-qFZt530OK5Mrr+SGYF_etMGl^4LbQhPJQfMdh7nlhsbD
+
+'
 );
-$password = hash('ripemd160', $_POST["passwd"]);
-$email = $_POST["email"];
 
-$email = hash("ripemd160",$email);
+$password = $_POST["passwd"];
+$email = hash('ripemd160', $_POST["email"]);
 
-$dbpassword = $data[$email."pass"];
-$dbsalt = $data[$email."salt"];
-$dbhash  = hash('ripemd160', $dbpassword.$dbsalt);
-$localhash = hash('ripemd160', $password.$dbsalt);
-if ($dbhash == $localhash){
+$password = hash('ripemd160', ($password.$data[$email."salt"]));
+
+$datapass = $data[$email."pass"];
+
+if ($datapass == $password){
 session_start();
 $_SESSION['email']= $email;
 $_SESSION['passwd']= $password;
